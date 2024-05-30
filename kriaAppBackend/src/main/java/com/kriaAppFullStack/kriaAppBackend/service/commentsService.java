@@ -1,7 +1,7 @@
 package com.kriaAppFullStack.kriaAppBackend.service;
 
 import com.kriaAppFullStack.kriaAppBackend.exception.ResourceNotFoundException;
-import com.kriaAppFullStack.kriaAppBackend.model.comment;
+import com.kriaAppFullStack.kriaAppBackend.model.comments;
 import com.kriaAppFullStack.kriaAppBackend.repo.commentsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,42 +16,42 @@ public class commentsService {
     @Autowired
     private commentsRepo commentsRepo;
 
-    public comment addComment(comment newComment) {
+    public comments addComment(comments newComment) {
         newComment.setLikes(0);
         newComment.setDislikes(0);
         newComment.setDate(LocalDateTime.now());
         return commentsRepo.save(newComment);
     }
 
-    public List<comment> getCommentsByUserId(Integer userId) {
-        List<comment> comments = commentsRepo.findByUserId(userId);
+    public List<comments> getCommentsByUserId(Integer userId) {
+        List<comments> comments = commentsRepo.findByUserId(userId);
         if (comments.isEmpty()) {
             throw new ResourceNotFoundException("No comments found for userId: " + userId);
         }
         return comments;
     }
 
-    public List<comment> getCommentsByUsername(String username) {
-        List<comment> comments = commentsRepo.findByUsername(username);
+    public List<comments> getCommentsByUsername(String username) {
+        List<comments> comments = commentsRepo.findByUsername(username);
         if (comments.isEmpty()) {
             throw new ResourceNotFoundException("No comments found for username: " + username);
         }
         return comments;
     }
 
-    public List<comment> getAllComments() {
+    public List<comments> getAllComments() {
         return commentsRepo.findAll();
     }
 
-    public Optional<comment> getCommentById(Integer id) {
-        Optional<comment> comment = commentsRepo.findById(id);
+    public Optional<comments> getCommentById(Integer id) {
+        Optional<comments> comment = commentsRepo.findById(id);
         if (comment.isEmpty()) {
             throw new ResourceNotFoundException("Comment not found with id: " + id);
         }
         return comment;
     }
 
-    public comment updateComment(Integer id, comment updatedComment) {
+    public comments updateComment(Integer id, comments updatedComment) {
         return commentsRepo.findById(id).map(comment -> {
             comment.setBookId(updatedComment.getBookId());
             comment.setComment(updatedComment.getComment());
@@ -63,20 +63,20 @@ public class commentsService {
     }
 
     public void deleteComment(Integer id) {
-        comment existingComment = commentsRepo.findById(id)
+        comments existingComment = commentsRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found with id " + id));
         commentsRepo.delete(existingComment);
     }
 
-    public comment likeComment(Integer id) {
+    public comments likeComment(Integer id) {
         return commentsRepo.findById(id).map(comment -> {
             comment.setLikes(comment.getLikes() + 1);
             return commentsRepo.save(comment);
         }).orElseThrow(() -> new ResourceNotFoundException("Comment not found with id: " + id));
     }
 
-    public comment unlikeComment(Integer id) {
-        comment existingComment = commentsRepo.findById(id)
+    public comments unlikeComment(Integer id) {
+        comments existingComment = commentsRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found with id " + id));
         if (existingComment.getLikes() > 0) {
             existingComment.setLikes(existingComment.getLikes() - 1);
@@ -84,15 +84,15 @@ public class commentsService {
         return commentsRepo.save(existingComment);
     }
 
-    public comment dislikeComment(Integer id) {
+    public comments dislikeComment(Integer id) {
         return commentsRepo.findById(id).map(comment -> {
             comment.setDislikes(comment.getDislikes() + 1);
             return commentsRepo.save(comment);
         }).orElseThrow(() -> new ResourceNotFoundException("Comment not found with id: " + id));
     }
 
-    public comment undislikeComment(Integer id) {
-        comment existingComment = commentsRepo.findById(id)
+    public comments undislikeComment(Integer id) {
+        comments existingComment = commentsRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found with id " + id));
         if (existingComment.getDislikes() > 0) {
             existingComment.setDislikes(existingComment.getDislikes() - 1);

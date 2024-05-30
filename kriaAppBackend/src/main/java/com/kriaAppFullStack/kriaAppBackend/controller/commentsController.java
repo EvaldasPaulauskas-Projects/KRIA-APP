@@ -1,6 +1,6 @@
 package com.kriaAppFullStack.kriaAppBackend.controller;
 
-import com.kriaAppFullStack.kriaAppBackend.model.comment;
+import com.kriaAppFullStack.kriaAppBackend.model.comments;
 import com.kriaAppFullStack.kriaAppBackend.service.commentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,38 +19,38 @@ public class commentsController {
 
     // add comment
     @PostMapping("/add")
-    public comment addComment(@RequestBody comment newComment) {
+    public comments addComment(@RequestBody comments newComment) {
         return commentsService.addComment(newComment);
     }
 
     // get comment by userId
     @GetMapping("/user/{userId}")
-    public List<comment> getCommentsByUserId(@PathVariable Integer userId) {
+    public List<comments> getCommentsByUserId(@PathVariable Integer userId) {
         return commentsService.getCommentsByUserId(userId);
     }
 
     // get comment by username
     @GetMapping("/username/{username}")
-    public List<comment> getCommentsByUsername(@PathVariable String username) {
+    public List<comments> getCommentsByUsername(@PathVariable String username) {
         return commentsService.getCommentsByUsername(username);
     }
 
     // list all comments
     @GetMapping
-    public List<comment> getAllComments() {
+    public List<comments> getAllComments() {
         return commentsService.getAllComments();
     }
 
     // get comment by id
     @GetMapping("/{id}")
-    public Optional<comment> getCommentById(@PathVariable Integer id) {
+    public Optional<comments> getCommentById(@PathVariable Integer id) {
         return commentsService.getCommentById(id);
     }
 
 
     // edit comment by id
     @PutMapping("/edit/{id}")
-    public comment updateComment(@PathVariable Integer id, @RequestBody comment updatedComment) {
+    public comments updateComment(@PathVariable Integer id, @RequestBody comments updatedComment) {
         return commentsService.updateComment(id, updatedComment);
     }
 
@@ -64,25 +64,25 @@ public class commentsController {
 
     // like comment by comment id
     @PostMapping("/like/{id}")
-    public comment likeComment(@PathVariable Integer id) {
+    public comments likeComment(@PathVariable Integer id) {
         return commentsService.likeComment(id);
     }
 
     // dislike comment by comment id
     @PostMapping("/dislike/{id}")
-    public comment dislikeComment(@PathVariable Integer id) {
+    public comments dislikeComment(@PathVariable Integer id) {
         return commentsService.dislikeComment(id);
     }
 
     // unlike comment by comment id
     @PostMapping("/unlike/{id}")
-    public comment unlikeComment(@PathVariable Integer id) {
+    public comments unlikeComment(@PathVariable Integer id) {
         return commentsService.unlikeComment(id);
     }
 
     // undislike comment by comment id
     @PostMapping("/undislike/{id}")
-    public comment undislikeComment(@PathVariable Integer id) {
+    public comments undislikeComment(@PathVariable Integer id) {
         return commentsService.undislikeComment(id);
     }
 }

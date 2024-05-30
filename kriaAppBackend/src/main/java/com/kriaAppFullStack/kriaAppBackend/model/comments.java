@@ -1,6 +1,5 @@
 package com.kriaAppFullStack.kriaAppBackend.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "comments")
 @Data
-public class comment {
+public class comments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,7 +20,7 @@ public class comment {
     private Integer dislikes = 0;
     private LocalDateTime date;
 
-    public comment() {
+    public comments() {
         this.date = LocalDateTime.now();
     }
 
