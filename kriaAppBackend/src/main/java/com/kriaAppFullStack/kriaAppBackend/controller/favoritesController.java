@@ -28,7 +28,7 @@ public class favoritesController {
     }
 
     // delete from favorites
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFavorite(@PathVariable Integer id) {
         favoritesService.deleteFavorite(id);
         return ResponseEntity.status(HttpStatus.OK).body("Favorite with ID " + id + " has been deleted.");

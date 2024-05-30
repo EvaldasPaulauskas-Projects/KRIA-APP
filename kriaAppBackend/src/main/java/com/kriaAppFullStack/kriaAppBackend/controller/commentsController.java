@@ -56,7 +56,7 @@ public class commentsController {
 
 
     // delete comment by id
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable Integer id) {
         commentsService.deleteComment(id);
         return ResponseEntity.status(HttpStatus.OK).body("Comment with ID " + id + " has been deleted.");
