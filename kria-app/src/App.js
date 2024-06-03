@@ -8,6 +8,8 @@ import RegistrationPage from './pages/auth/RegistrationPage';
 import AdminBoard from './pages/AdminBoard';
 import AddCategory from './pages/category/AddCategory';
 import EditCategory from './pages/category/EditCategory';
+import AddBook from './pages/book/AddBook';
+import EditBook from './pages/book/EditBook';
 
 function App() {
   const isAuthenticated = UserService.isAuthenticated();
@@ -32,6 +34,9 @@ function App() {
 
             <Route path="/add-category" element={<AddCategory />} />
             <Route path="/edit-category/:id" element={<EditCategory />} />
+
+            <Route path="/add-book" element={<AddBook />} />
+            <Route path="/edit-book/:id" element={<EditBook />} />
           </>
         )}
 
