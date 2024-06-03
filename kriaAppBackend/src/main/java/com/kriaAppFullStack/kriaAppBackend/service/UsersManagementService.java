@@ -1,10 +1,12 @@
 package com.kriaAppFullStack.kriaAppBackend.service;
 
 import com.kriaAppFullStack.kriaAppBackend.dto.ReqRes;
+import com.kriaAppFullStack.kriaAppBackend.exception.ResourceNotFoundException;
 import com.kriaAppFullStack.kriaAppBackend.model.appUsers;
 import com.kriaAppFullStack.kriaAppBackend.repo.appUsersRepo;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.kriaAppFullStack.kriaAppBackend.exception.ResourceNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,24 +33,39 @@ public class UsersManagementService {
         ReqRes resp = new ReqRes();
 
         try {
+            // Check if a user with the same email already exists
+            Optional<appUsers> existingUser = usersRepo.findByEmail(registrationRequest.getEmail());
+            if (existingUser.isPresent()) {
+                // User with the same email already exists, throw ResourceNotFoundException
+                throw new ResourceNotFoundException("User with the email " + registrationRequest.getEmail() + " already exists.");
+            }
+
+            // If user doesn't exist, proceed with registration
             appUsers ourUser = new appUsers();
             ourUser.setEmail(registrationRequest.getEmail());
             ourUser.setRole(registrationRequest.getRole());
             ourUser.setName(registrationRequest.getName());
             ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             appUsers ourUsersResult = usersRepo.save(ourUser);
-            if (ourUsersResult.getId()>0) {
+            if (ourUsersResult.getId() > 0) {
                 resp.setOurUsers((ourUsersResult));
                 resp.setMessage("User Saved Successfully");
                 resp.setStatusCode(200);
             }
 
-        }catch (Exception e){
+        } catch (ResourceNotFoundException e) {
+            // Catch ResourceNotFoundException and return appropriate response
+            resp.setStatusCode(404); // Not Found
+            resp.setMessage(e.getMessage());
+        } catch (Exception e) {
+            // Catch any other exceptions and handle them
             resp.setStatusCode(500);
             resp.setError(e.getMessage());
         }
         return resp;
     }
+
+
 
 
     public ReqRes login(ReqRes loginRequest){
