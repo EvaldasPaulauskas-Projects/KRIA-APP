@@ -6,7 +6,7 @@ function RegistrationPage() {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        username: '',
+        name: '',
         email: '',
         password: '',
         role: 'USER', // Default role to 'USER'
@@ -26,16 +26,16 @@ function RegistrationPage() {
 
             // Clear the form fields after successful registration
             setFormData({
-                username: '',
+                name: '',
                 email: '',
                 password: '',
                 role: 'USER',
             });
-            alert('User registered successfully');
+            // alert('User registered successfully');
             navigate('/');
         } catch (error) {
             console.error('Error registering user:', error);
-            alert('An error occurred while registering user');
+            // alert('An error occurred while registering user');
         }
     };
 
@@ -43,19 +43,20 @@ function RegistrationPage() {
         <div className="min-h-screen flex items-center justify-center bg-background font-poppins">
             <div className="bg-secondary p-8 rounded-lg shadow-lg w-96">
                 <h2 className="text-white text-2xl font-bold mb-6 text-center">Sign Up</h2>
+                <div className="mb-4">
+
+                <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="password">Username</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="bg-transparent border-b-2 border-gray-300 w-full py-2 px-3 text-white placeholder-gray-400 leading-tight focus:outline-none focus:border-primary2 transition duration-300"
+                        placeholder="Username"
+                        required
+                    />
+                </div>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                    <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="password">Username</label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleInputChange}
-                            className="bg-transparent border-b-2 border-gray-300 w-full py-2 px-3 text-white placeholder-gray-400 leading-tight focus:outline-none focus:border-primary2 transition duration-300"
-                            placeholder="Username"
-                            required
-                        />
-                    </div>
                     <div className="mb-4">
                     <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="password">Email</label>
                         <input
