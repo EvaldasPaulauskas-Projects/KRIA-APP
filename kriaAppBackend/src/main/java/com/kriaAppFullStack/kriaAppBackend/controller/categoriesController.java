@@ -34,7 +34,7 @@ public class categoriesController {
     }
 
     // Create a new category
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<?> createCategory(@RequestBody categories category) {
         // Check if the category with the provided tag already exists
         categories existingCategory = categoriesService.getCategoryByTag(category.getTag());

@@ -20,7 +20,7 @@ export default function Dashboard() {
 
     return (
         <div className='font-poppins'>
-            <h1 className='text-3xl font-bold text-center mt-4'>Dashboard</h1>
+            <h1 className='text-3xl font-bold text-center mt-6 p-2'>Dashboard</h1>
 
             {/* PROFILE */}
             <div className=" shadow-2xl border-4 border-gray-800 bg-gray-900 text-white w-[25rem] ml-11 flex flex-col gap-4 rounded-lg overflow-hidden">

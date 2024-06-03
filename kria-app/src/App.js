@@ -5,6 +5,9 @@ import LoginPage from './pages/auth/LoginPage';
 import Dashboard from './pages/Dashboard';
 import Navbar from './components/Navbar/Navbar';
 import RegistrationPage from './pages/auth/RegistrationPage';
+import AdminBoard from './pages/AdminBoard';
+import AddCategory from './pages/category/AddCategory';
+import EditCategory from './pages/category/EditCategory';
 
 function App() {
   const isAuthenticated = UserService.isAuthenticated();
@@ -25,6 +28,10 @@ function App() {
         {isAdmin && isAuthenticated && (
           <>
             {/* Add your admin routes here */}
+            <Route path="/admin-board" element={<AdminBoard />} />
+
+            <Route path="/add-category" element={<AddCategory />} />
+            <Route path="/edit-category/:id" element={<EditCategory />} />
           </>
         )}
 

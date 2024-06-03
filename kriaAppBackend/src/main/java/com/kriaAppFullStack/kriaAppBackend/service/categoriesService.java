@@ -1,5 +1,6 @@
 package com.kriaAppFullStack.kriaAppBackend.service;
 
+import com.kriaAppFullStack.kriaAppBackend.exception.ResourceNotFoundException;
 import com.kriaAppFullStack.kriaAppBackend.model.categories;
 import com.kriaAppFullStack.kriaAppBackend.repo.categoriesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,15 @@ public class categoriesService {
         }
     }
 
+
     public categories updateCategory(Integer id, categories newCategory) {
+        // Check if the new updated category tag already exists
+        categories existingCategory = getCategoryByTag(newCategory.getTag());
+        if (existingCategory != null && !existingCategory.getId().equals(id)) {
+            // If category with the same tag exists and it's not the same category being updated, return null
+            throw new ResourceNotFoundException("Category with tag '" + newCategory.getTag() + "' already exists!");
+        }
+        // Otherwise, proceed with updating the category
         return categoriesRepository.findById(id).map(category -> {
             category.setTag(newCategory.getTag());
             return categoriesRepository.save(category);
