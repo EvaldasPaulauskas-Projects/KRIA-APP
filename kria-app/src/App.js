@@ -10,6 +10,8 @@ import AddCategory from './pages/category/AddCategory';
 import EditCategory from './pages/category/EditCategory';
 import AddBook from './pages/book/AddBook';
 import EditBook from './pages/book/EditBook';
+import AllBooks from './pages/AllBooks';
+import ViewBoook from './pages/book/ViewBook';
 
 function App() {
   const isAuthenticated = UserService.isAuthenticated();
@@ -25,6 +27,9 @@ function App() {
 
         {/* Authenticated User Routes */}
         <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
+        <Route path="/all-books" element={isAuthenticated ? <AllBooks /> : <Navigate to="/" />} />
+
+        <Route path="/view-book/:id" element={<ViewBoook />} />
 
         {/* Admin Routes */}
         {isAdmin && isAuthenticated && (

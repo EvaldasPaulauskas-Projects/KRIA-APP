@@ -20,7 +20,7 @@ function Navbar() {
         return (
             <nav className="bg-white border-gray-200 py-2.5 dark:bg-gray-900 font-poppins">
                 <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-                    <a href="#" className="flex items-center">
+                    <a href="/" className="flex items-center">
                         <img src="https://cdn0.iconfinder.com/data/icons/colorful-school/111/08-512.png" className="h-6 mr-3 sm:h-9" alt="Logo" />
                         <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">KRIA</span>
                     </a>
@@ -73,7 +73,7 @@ function Navbar() {
                             }
                             <li>
                                 <a
-                                    href="#"
+                                    href="/all-books"
                                     className={`block py-2 pl-3 pr-4 rounded lg:bg-transparent lg:p-0 ${location.pathname === '/view-all-books' ? 'text-white bg-purple-700 lg:text-purple-700 dark:text-white' : 'text-gray-700 lg:text-gray-700 dark:text-gray-400'}`}>
                                     View All Books
                                 </a>

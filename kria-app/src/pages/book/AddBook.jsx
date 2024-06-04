@@ -138,7 +138,7 @@ function AddBook() {
                         >
                             <option className='text-black' value="">Select a category</option>
                             {categories.map(category => (
-                                <option className='text-black' key={category.id} value={category.id}>{category.tag}</option>
+                                <option className='text-black' key={category.id} value={category.tag}>{category.tag}</option>
                             ))}
                         </select>
                     </div>
