@@ -97,7 +97,7 @@ function AdminBoard() {
                                 <img src={book.photo} alt={book.name} className="rounded-t-md w-full h-64 object-cover" />
                                 <div className="p-6 flex-grow">
                                     <h1 className="text-xl font-semibold text-gray-200 mb-2">Name: {book.name}</h1>
-                                    <p className="text-gray-300 mb-4">{book.description}</p>
+                                    <p className="text-gray-300 mb-4 line-clamp-3">{book.description}</p>
                                     <div className="flex justify-between text-gray-300">
                                         <p>Pages: {book.pages}</p>
                                         <p>Category: {book.category}</p>

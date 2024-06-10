@@ -15,7 +15,7 @@ function BookCard({ book }) {
               <span className="text-yellow-500 text-xl">★★★★★</span>
               <span className="ml-2 text-sm text-gray-600">{book.rating}(1)</span>
             </div>
-            <p className="mt-2 text-gray-700">{book.description}</p>
+            <p className="mt-2 text-gray-700  mb-4 line-clamp-3">{book.description}</p>
           </div>
           <div className="mt-4">
             <h1 className="text-sm text-gray-500">Pages: {book.pages}</h1>

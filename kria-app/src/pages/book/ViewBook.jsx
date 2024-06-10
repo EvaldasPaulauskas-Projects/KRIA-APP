@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart, faThumbsUp, faThumbsDown, faUser,faEdit  } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faHeart, faThumbsUp, faThumbsDown, faUser, faEdit } from '@fortawesome/free-solid-svg-icons';
 import BookService from "../../service/BookService/BookService";
 import CommentService from "../../service/CommentService/CommentService";
-import UserService from "../../service/UserService/UserService"; // Import the UserService
-
+import UserService from "../../service/UserService/UserService";
+import FavoriteService from "../../service/FavoriteService/FavoriteService"; // Import the FavoriteService
 
 function ViewBook() {
     const { id } = useParams();
@@ -19,7 +19,8 @@ function ViewBook() {
         category: ''
     });
     const [rating, setRating] = useState(0);
-    const [favorites, setFavorites] = useState([]);
+    const [isFavorite, setIsFavorite] = useState(false); // Changed from favorites array to a boolean
+    const [favoriteId, setFavoriteId] = useState(null); // Store the favorite ID for deletion
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState('');
     const [userProfile, setUserProfile] = useState(null);
@@ -47,10 +48,8 @@ function ViewBook() {
         async function loadComments() {
             try {
                 const comments = await CommentService.getAllComments();
-                const filterdOutComments = comments.filter(comment  => comment.bookId == id);
-
-                console.log(filterdOutComments, "ADDD")
-                setComments(filterdOutComments);
+                const filteredComments = comments.filter(comment => comment.bookId == id);
+                setComments(filteredComments);
             } catch (error) {
                 console.error('Error fetching comments:', error);
             }
@@ -62,9 +61,26 @@ function ViewBook() {
                 if (token) {
                     const profile = await UserService.getYourProfile(token);
                     setUserProfile(profile.ourUsers);
+                    checkFavoriteStatus(profile.ourUsers.id);
                 }
             } catch (error) {
                 console.error('Error fetching user profile:', error);
+            }
+        }
+
+        async function checkFavoriteStatus(userId) {
+            try {
+                const favorites = await FavoriteService.getUserFavorites(userId);
+                const favorite = favorites.find(favorite => favorite.bookId == id);
+                if (favorite) {
+                    setIsFavorite(true);
+                    setFavoriteId(favorite.id);
+                } else {
+                    setIsFavorite(false);
+                    setFavoriteId(null);
+                }
+            } catch (error) {
+                console.error('Error checking favorite status:', error);
             }
         }
 
@@ -116,9 +132,32 @@ function ViewBook() {
         }
     };
 
+    const handleToggleFavorite = async () => {
+        try {
+            if (isFavorite) {
+                // Unfavorite the book
+                await FavoriteService.deleteFavoriteById(favoriteId);
+                setIsFavorite(false);
+                setFavoriteId(null);
+            } else {
+                // Favorite the book
+                const favoriteData = {
+                    userId: userProfile.id,
+                    bookId: id,
+                    isFavorite: "TRUE"
+                };
+                const newFavorite = await FavoriteService.addFavorite(favoriteData);
+                setIsFavorite(true);
+                setFavoriteId(newFavorite.id);
+            }
+        } catch (error) {
+            console.error('Error toggling favorite status:', error);
+        }
+    };
+
     return (
         <div className="">
-            <div className=" flex items-center">
+            <div className="flex items-center">
                 <div className="ml-48 my-20">
                     <img src={bookData.photo} alt={bookData.name} className="w-[35rem] h-auto border-4 border-black" />
                     <div className="flex gap-8 mt-4">
@@ -128,8 +167,8 @@ function ViewBook() {
                 </div>
                 <div className="ml-16 flex gap-8 flex-col mb-36">
                     <h1 className="text-4xl font-bold">{bookData.name}</h1>
-                    <p className="text-2xl">{bookData.description}</p>
-    
+                    <p className="text-1xl break-words w-96">{bookData.description}</p>
+
                     <div className="mt-8 flex flex-col gap-2">
                         <h2 className="text-2xl font-bold">Rate this book</h2>
                         <div>
@@ -140,13 +179,13 @@ function ViewBook() {
                             ))}
                         </div>
                     </div>
-    
-                    <button onClick={() => setFavorites(!favorites)} className={`font-bold py-2 px-4 rounded mt-4 text-xl border-2 border-black w-96 ${favorites ? 'text-red-500' : 'text-black'}`}>
-                        {favorites ? 'Remove from Favorites' : 'Add to Favorites'} <FontAwesomeIcon icon={favorites ? faHeart : faHeart} />
+
+                    <button onClick={handleToggleFavorite} className={`font-bold py-2 px-4 rounded mt-4 text-xl border-2 border-black w-96 ${isFavorite ? 'text-red-500' : 'text-black'}`}>
+                        {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'} <FontAwesomeIcon icon={faHeart} />
                     </button>
                 </div>
             </div>
-    
+
             <div>
                 <div>
                     <div className="w-full bg-white rounded-lg pl-44 pr-24 p-12">
@@ -161,7 +200,7 @@ function ViewBook() {
                                 <button type='submit' className="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500">Post Comment</button>
                             </div>
                         </form>
-    
+
                         {comments.map((comment, index) => (
                             <div key={index} className="border rounded-md p-3 ml-3 my-3">
                                 <div className="flex gap-3 items-center">
@@ -205,7 +244,6 @@ function ViewBook() {
             </div>
         </div>
     );
-    
 }
 
 export default ViewBook;
