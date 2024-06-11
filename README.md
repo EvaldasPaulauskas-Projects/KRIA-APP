@@ -132,6 +132,6 @@ Request body for user login:
 - Spring Boot - Backend server
 - H2 Database - Relational database management
 
-## Authors
+## Author
 
 - Evaldas Paulauskas - [GitHub Profile](https://github.com/FinalActt)
