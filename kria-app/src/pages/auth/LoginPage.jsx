@@ -91,7 +91,7 @@ function LoginPage() {
       <div className="flex flex-1 bg-[#2E3A59] items-center justify-center p-6">
         <div className="text-center">
           <h2 className="text-white text-3xl font-bold mb-4">Join Our Community</h2>
-          <p className="text-gray-200">Be inspired by designers around the globe</p>
+          <p className="text-gray-200">Be inspired by authors around the world</p>
         </div>
       </div>
     </div>
