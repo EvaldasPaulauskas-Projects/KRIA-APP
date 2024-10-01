@@ -8,8 +8,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Before running the application, you need to have the following software installed on your system:
-
 - Java Development Kit (JDK) 8 or later
 - Node.js
 - npm
@@ -17,149 +15,96 @@ Before running the application, you need to have the following software installe
 
 ### Installation
 
-1. Clone the repository to your local machine:
-   ```bash
-   git clone https://github.com/FinalActt/KRIA-APP.git
-   ```
-
-2. Navigate to the project directory:
-   ```bash
-   cd KRIA-APP
-   ```
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
 
 ### Running the Backend
 
-1. Navigate to the backend directory:
-   ```bash
-   cd kriaAppBackend
-   ```
-
-2. Build the project using Maven:
-   ```bash
-   mvn clean install
-   ```
-
-3. Run the Spring Boot application:
-   ```bash
-   mvn spring-boot:run
-   ```
-   The backend server should now be running on [http://localhost:8080](http://localhost:8080).
+1. Navigate to the backend directory.
+2. Build the project using Maven.
+3. Run the Spring Boot application.
 
 ### Running the Frontend
 
 1. Open a new terminal window.
-
-2. Navigate to the frontend directory:
-   ```bash
-   cd kria-app
-   ```
-
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-4. Start the React development server:
-   ```bash
-   npm start
-   ```
-   The frontend should now be accessible in your web browser at [http://localhost:3000](http://localhost:3000).
+2. Navigate to the frontend directory.
+3. Install dependencies.
+4. Start the React development server.
 
 ## Usage
 
 ### Registration
 
-You can register new users using the following endpoint:
+You can register new users via the registration endpoint. Different user roles are supported, including ADMIN and USER.
 
-**POST** [http://localhost:8080/auth/register](http://localhost:8080/auth/register)
+#### Request
 
-**Request body for admin registration:**
 ```json
 {
-  "email": "admin@admin.com",
-  "name": "admin",
-  "password": "admin",
-  "role": "ADMIN"
-}
-```
-
-**Request body for user registration:**
-```json
-{
-  "email": "user@user.com",
-  "name": "user",
-  "password": "user",
+  "username": "johndoe",
+  "password": "password123",
+  "email": "johndoe@example.com",
   "role": "USER"
 }
 ```
 
 ### Login
 
-You can log in using the following endpoint:
+You can log in using the login endpoint with your credentials.
 
-**POST** [http://localhost:8080/auth/login](http://localhost:8080/auth/login)
+#### Request
 
-**Request body for admin login:**
 ```json
 {
-  "email": "admin@admin.com",
-  "password": "admin"
-}
-```
-
-**Request body for user login:**
-```json
-{
-  "email": "user@user.com",
-  "password": "user"
+  "username": "johndoe",
+  "password": "password123"
 }
 ```
 
 ### Fetching Books
 
-You can fetch all books using the following endpoint:
+You can fetch all books through the designated endpoint, which returns a list of available books along with their details.
 
-**GET** [http://localhost:8080/api/books](http://localhost:8080/api/books)
+#### Response
 
-**Example Response:**
 ```json
 [
   {
     "id": 1,
-    "title": "Book Title 1",
-    "author": "Author Name 1",
-    "description": "Description of Book 1.",
-    "publishedDate": "2024-01-01"
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Fiction",
+    "publishedYear": 1925
   },
   {
     "id": 2,
-    "title": "Book Title 2",
-    "author": "Author Name 2",
-    "description": "Description of Book 2.",
-    "publishedDate": "2024-02-01"
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Fiction",
+    "publishedYear": 1960
   }
 ]
 ```
 
 ### Fetching a Single Book
 
-To fetch a specific book by its ID, use the following endpoint:
+To fetch a specific book by its ID, a dedicated endpoint is available, providing detailed information about the book, including comments associated with it.
 
-**GET** [http://localhost:8080/api/books/{id}](http://localhost:8080/api/books/{id})
+#### Response
 
-**Example Response:**
 ```json
 {
   "id": 1,
-  "title": "Book Title 1",
-  "author": "Author Name 1",
-  "description": "Description of Book 1.",
-  "publishedDate": "2024-01-01",
+  "title": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "genre": "Fiction",
+  "publishedYear": 1925,
   "comments": [
     {
       "id": 1,
-      "text": "This is a comment on Book 1.",
-      "author": "user@user.com"
+      "username": "user1",
+      "text": "Amazing book!",
+      "timestamp": "2024-10-01T12:00:00Z"
     }
   ]
 }
@@ -167,48 +112,256 @@ To fetch a specific book by its ID, use the following endpoint:
 
 ### Commenting on a Book
 
-You can add a comment to a specific book using the following endpoint:
+Users can add comments to specific books using a designated endpoint.
 
-**POST** [http://localhost:8080/api/books/{id}/comments](http://localhost:8080/api/books/{id}/comments)
+#### Request
 
-**Request body for adding a comment:**
 ```json
 {
-  "text": "This is a comment.",
-  "author": "user@user.com"
-}
-```
-
-**Example Response:**
-```json
-{
-  "id": 2,
-  "text": "This is a comment.",
-  "author": "user@user.com",
-  "bookId": 1
+  "bookId": 1,
+  "username": "user1",
+  "text": "This book changed my life!"
 }
 ```
 
 ### Fetching Comments for a Book
 
-To fetch comments for a specific book, use the following endpoint:
+To retrieve comments for a specific book, you can use the relevant endpoint.
 
-**GET** [http://localhost:8080/api/books/{id}/comments](http://localhost:8080/api/books/{id}/comments)
+#### Response
 
-**Example Response:**
 ```json
 [
   {
     "id": 1,
-    "text": "This is a comment on Book 1.",
-    "author": "user@user.com"
-  },
-  {
-    "id": 2,
-    "text": "Another comment on Book 1.",
-    "author": "admin@admin.com"
+    "username": "user1",
+    "text": "This book changed my life!",
+    "timestamp": "2024-10-01T12:00:00Z"
   }
 ]
+```
+
+### Favorites Management
+
+You can manage favorites using the following endpoints:
+
+#### Add to Favorites
+
+Allows users to add a specific book to their favorites.
+
+##### Request
+
+```json
+{
+  "userId": 1,
+  "bookId": 1,
+  "isFavorite": true
+}
+```
+
+##### Response
+
+```json
+{
+  "id": 1,
+  "userId": 1,
+  "bookId": 1,
+  "isFavorite": true
+}
+```
+
+#### Delete from Favorites
+
+Users can remove a book from their favorites list.
+
+##### Request
+
+```json
+{
+  "id": 1
+}
+```
+
+##### Response
+
+```json
+{
+  "message": "Favorite with ID 1 has been deleted."
+}
+```
+
+#### List All Favorites
+
+Retrieve a list of all favorite books.
+
+##### Response
+
+```json
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "bookId": 1,
+    "isFavorite": true
+  }
+]
+```
+
+#### List Favorites by User ID
+
+Get a list of favorites specific to a user.
+
+##### Response
+
+```json
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "bookId": 1,
+    "isFavorite": true
+  }
+]
+```
+
+#### List Favorites by Book ID
+
+Fetch favorites associated with a specific book.
+
+##### Response
+
+```json
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "bookId": 1,
+    "isFavorite": true
+  }
+]
+```
+
+### Stars Management
+
+Users can also manage star ratings for books through the following endpoints:
+
+#### Add a Star Rating
+
+Allows users to rate a book.
+
+##### Request
+
+```json
+{
+  "userId": 1,
+  "bookId": 1,
+  "rating": 5
+}
+```
+
+##### Response
+
+```json
+{
+  "id": 1,
+  "userId": 1,
+  "bookId": 1,
+  "rating": 5
+}
+```
+
+#### Get All Star Ratings
+
+Retrieve a list of all star ratings.
+
+##### Response
+
+```json
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "bookId": 1,
+    "rating": 5
+  }
+]
+```
+
+#### Get Star Ratings by User ID
+
+Fetch star ratings specific to a user.
+
+##### Response
+
+```json
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "bookId": 1,
+    "rating": 5
+  }
+]
+```
+
+#### Get Star Ratings by Book ID
+
+Get star ratings associated with a specific book.
+
+##### Response
+
+```json
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "bookId": 1,
+    "rating": 5
+  }
+]
+```
+
+#### Update Star Rating
+
+Edit a star rating based on its ID.
+
+##### Request
+
+```json
+{
+  "rating": 4
+}
+```
+
+##### Response
+
+```json
+{
+  "id": 1,
+  "userId": 1,
+  "bookId": 1,
+  "rating": 4
+}
+```
+
+#### Delete Star Rating
+
+Remove a star rating based on its ID.
+
+##### Request
+
+```json
+{
+  "id": 1
+}
+```
+
+##### Response
+
+```json
+{
+  "message": "Star rating with ID 1 has been deleted."
+}
 ```
 
 ## Frontend Overview
@@ -217,7 +370,7 @@ The frontend is built using React and utilizes hooks and context for state manag
 
 ### Key Components
 
-- **App**: The main application component that contains routing logic.
+- **App**: The main application component.
 - **Home**: The home page displaying the list of books.
 - **BookDetail**: The detail page for a specific book, including comments.
 - **Login**: The login page for user authentication.
@@ -225,7 +378,7 @@ The frontend is built using React and utilizes hooks and context for state manag
 
 ### State Management
 
-The application uses React's Context API for managing global state, including user authentication and book data.
+The application uses React's Context API for managing global state.
 
 ## Backend Overview
 
@@ -234,94 +387,9 @@ The backend is built using Spring Boot and provides RESTful APIs for the fronten
 ### Key Endpoints
 
 - **Authentication**
-  - **POST** /auth/register
-  - **POST** /auth/login
-- **Books**
-  - **GET** /api/books
-  - **GET** /api/books/{id}
-  - **POST** /api/books/{id}/comments
-  - **GET** /api/books/{id}/comments
+- **Books Management**
+- **Comments Management**
+- **Favorites Management**
+- **Stars Management**
 
-### Database Configuration
-
-The application uses MySQL as the database. Update the `application.properties` file in the `kriaAppBackend/src/main/resources` directory with your database connection details:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/kria_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-```
-
-### Example Database Schema
-
-Here is an example schema for the database:
-
-```sql
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('USER', 'ADMIN') NOT NULL
-);
-
-CREATE TABLE books (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    description TEXT,
-    publishedDate DATE
-);
-
-CREATE TABLE comments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    text TEXT NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    book_id INT,
-    FOREIGN KEY (book_id) REFERENCES books(id)
-);
-```
-
-## Example JSON for Testing
-
-### Sample Book JSON
-```json
-{
-  "title": "Sample Book",
-  "author": "Sample Author",
-  "description": "This is a sample book description.",
-  "publishedDate": "2024-03-01"
-}
-```
-
-### Sample Comment JSON
-```json
-{
-  "text": "This is a sample comment.",
-  "author": "sample@user.com"
-}
-```
-
-## Contributing
-
-If you want to contribute to this project, please follow these steps:
-
-1. Fork the repository.
-2. Create your feature branch:
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-5. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+This README provides a comprehensive overview of the application, including setup instructions, usage, and a description of the backend and frontend functionalities.
